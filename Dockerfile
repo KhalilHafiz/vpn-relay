@@ -1,9 +1,15 @@
-FROM gradle:8.5-jdk17 AS build
-WORKDIR /app
-COPY . .
-RUN gradle installDist
+# Use official Gradle image with JDK
+FROM gradle:8.5.0-jdk17
 
-FROM openjdk:17
+# Set working directory
 WORKDIR /app
-COPY --from=build /app/build/install/vpn-relay/ ./
-CMD ["./bin/vpn-relay"]
+
+# Copy project files
+COPY . .
+
+# Install xargs (needed by Render)
+USER root
+RUN apt-get update && apt-get install -y findutils
+
+# Run the Kotlin app directly using Gradle
+CMD ["gradle", "run"]
