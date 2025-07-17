@@ -10,5 +10,5 @@ FROM openjdk:17-alpine
 WORKDIR /app
 COPY --from=builder /app/build/libs/vpn-relay-all.jar .
 
-ENV PORT=9090
+ENV PORT=10000
 CMD ["java", "-jar", "vpn-relay-all.jar"]
