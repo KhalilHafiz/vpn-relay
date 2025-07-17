@@ -4,7 +4,7 @@ import java.net.ServerSocket
 import kotlin.concurrent.thread
 
 fun main() {
-    val port = System.getenv("PORT")?.toIntOrNull() ?: 9090
+    val port = System.getenv("PORT")?.toIntOrNull() ?: 10000
     println("🌐 Relay server starting on port $port...")
     
     try {
