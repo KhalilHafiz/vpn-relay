@@ -1,15 +1,17 @@
-# Use official Gradle image with JDK
-FROM gradle:8.5.0-jdk17
+# Use lightweight JDK image
+FROM openjdk:17-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy project files
+# Copy everything into the image
 COPY . .
 
-# Install xargs (needed by Render)
-USER root
-RUN apt-get update && apt-get install -y findutils
+# Build the Kotlin project
+RUN ./gradlew clean shadowJar
 
-# Run the Kotlin app directly using Gradle
-CMD ["gradle", "run"]
+# Use environment variable PORT or fallback to 9090
+ENV PORT=9090
+
+# Run the server
+CMD ["java", "-jar", "build/libs/vpn-relay-all.jar"]

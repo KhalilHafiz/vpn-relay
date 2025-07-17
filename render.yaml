@@ -3,7 +3,7 @@ services:
     name: vpn-relay
     env: docker
     plan: free
-    region: frankfurt  # or oregon if Frankfurt is slow
-    dockerfilePath: ./Dockerfile
-    healthCheckPath: /
     autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 9090
