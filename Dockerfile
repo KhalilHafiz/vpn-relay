@@ -1,17 +1,14 @@
-# Use lightweight JDK image
-FROM openjdk:17-alpine
+FROM gradle:8.4-jdk17-alpine AS builder
 
-# Set working directory
 WORKDIR /app
-
-# Copy everything into the image
 COPY . .
 
-# Build the Kotlin project
-RUN ./gradlew clean shadowJar
+RUN gradle shadowJar --no-daemon
 
-# Use environment variable PORT or fallback to 9090
+FROM openjdk:17-alpine
+
+WORKDIR /app
+COPY --from=builder /app/build/libs/vpn-relay-all.jar .
+
 ENV PORT=9090
-
-# Run the server
-CMD ["java", "-jar", "build/libs/vpn-relay-all.jar"]
+CMD ["java", "-jar", "vpn-relay-all.jar"]
