@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: vpn-relay
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 9090
